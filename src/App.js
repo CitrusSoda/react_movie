@@ -2,40 +2,32 @@ import React from 'react';
 //prop 확인
 import PropTypes from "prop-types";
 
-//{a} = props.a
-function Food({name, picture, rating}) {
-    return (
-        <div>
-            <h1>I like {name}</h1>
-            <h4>rating is {rating}</h4>
-            <img src={picture} alt={name}/>
-        </div>
-    );
-}
+//클래스로 할려면 필수
+class App extends React.Component {
+    //state에 바꾸고싶은 data를 넣는다
+    state = {
+        count: 0
+    };
+    // setState를 사용하지 않으면 render함수를 부를 수 없다
+    add = () => {
+        // 추천하는 방법
+        this.setState(current => ({count: current.count + 1}));
+    };
+    minus = () => {
+        // this.state는 성능저하 문제 발생가능성이 있다.
+        this.setState({count: this.state.count - 1});
+    };
 
-const foodILike = [
-    {
-        id: 1,
-        name: "Kimchi",
-        image: "https://cdn.pixabay.com/photo/2017/06/10/19/32/kimchi-2390565_640.jpg",
-        rating: 4.9,
+    // react.component에있는 함수
+    render() {
+        return (
+            <div>
+                <h1>The number is : {this.state.count}</h1>
+                <button onClick={this.add}>Add</button>
+                <button onClick={this.minus}>Minus</button>
+            </div>
+        )
     }
-];
-
-Food.propTypes = {
-    name: PropTypes.string.isRequired,
-    picture: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired
-}
-
-function App() {
-    return (
-        <div>
-            {foodILike.map(dish => (
-                <Food key={dish.id} name={dish.name} picture={dish.image} rating={dish.rating}/>
-            ))}
-        </div>
-    );
 }
 
 export default App;
